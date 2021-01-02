@@ -14,10 +14,10 @@ export class Excel {
       const component = new Component($el);
       $el.html(component.toHTML());
       $root.append($el);
-      // Debug
-      if (component.name) {
-        window['c' + component.name] = component;
-      }
+      // // Debug
+      // if (component.name) {
+      //   window['c' + component.name] = component;
+      // }
       return component;
     });
     return {

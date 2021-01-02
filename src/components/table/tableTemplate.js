@@ -13,10 +13,10 @@ function toCollumn(char) {
   `;
 }
 
-function createRow(content) {
+function createRow(index, content) {
   return `
     <div class="row">
-        <div class="row-info"></div>
+        <div class="row-info">${index}</div>
         <div class="row-data">${content}</div>
     </div>`;
 }
@@ -36,15 +36,16 @@ export function template(countRows= 10) {
       .map(toCollumn)
       .join('');
 
-  rows.push(createRow(cols));
+  rows.push(createRow('', cols));
 
+  // Массив создания ячеек ряда
   const row = new Array(countCol)
       .fill(null)
       .map(createCell)
       .join('');
 
   for (let i = 0; i < countRows; i++) {
-    rows.push(createRow(row));
+    rows.push(createRow(i+1, row));
   }
 
   // const tempRow = createRow(setRowInfo() + cols);
