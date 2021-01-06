@@ -16,6 +16,7 @@
   }
 
   & .row-info {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,6 +32,7 @@
   }
 
   .column {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,6 +43,39 @@
     height: 100%;
     border-top: 0;
     border-left: 0;
+  }
+
+  .resize {
+    position: absolute;
+    background-color: #3c74ff;
+    opacity: 0;
+    z-index: 2;
+
+    &:hover {
+      opacity: 1!important;
+    }
+  }
+
+  .resize-col {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 4px;
+
+    &:hover {
+      cursor: col-resize;
+    }
+  }
+
+  .resize-row {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 4px;
+
+    &:hover {
+      cursor: row-resize;
+    }
   }
 
   & .cell {
