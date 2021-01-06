@@ -3,20 +3,27 @@ const CHAR_CODE = {
   'Z': 90,
 };
 
-function createCell() {
-  return `<div class="cell" contenteditable></div>`;
+function createCell(_, metaName) {
+  // console.log(toChar(_, metaName));
+  return `<div class="cell" data-name_col="${toChar(_, metaName)}" contenteditable></div>`;
 }
 
 function toCollumn(char) {
   return `
-    <div class="column">${char}</div>
+    <div class="column" data-event="resize">
+        ${char}
+        <div class="resize resize-col" data-resize="col"></div>
+    </div>
   `;
 }
 
 function createRow(index, content) {
   return `
-    <div class="row">
-        <div class="row-info">${index}</div>
+    <div class="row" data-event="resize">
+        <div class="row-info">
+            ${index}
+            <div class="resize resize-row" data-resize="row"></div>
+        </div>
         <div class="row-data">${content}</div>
     </div>`;
 }
