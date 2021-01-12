@@ -27,6 +27,14 @@ class Dom {
     return this;
   }
 
+  addClass(className) {
+    this.el.classList.add(className);
+  }
+
+  removeClass(className) {
+    this.el.classList.remove(className);
+  }
+
   append(node) {
     if (node instanceof Dom) {
       node = node.el;
@@ -38,6 +46,10 @@ class Dom {
     }
 
     return this;
+  }
+
+  find(selector) {
+    return $(document.querySelector(selector));
   }
 
   closest(selector) {
