@@ -9,7 +9,7 @@ export class Table extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown', 'keydown'],
+      listeners: ['mousedown', 'keydown', 'input'],
       ...options,
     });
   }
@@ -27,7 +27,7 @@ export class Table extends ExcelComponent {
       this.select.current.text(data);
     });
 
-    this.$on('formula:enter', (data)=> {
+    this.$on('formula:done', (data)=> {
       this.select.current.focus();
     });
   }
@@ -48,6 +48,7 @@ export class Table extends ExcelComponent {
         this.selectGroupCells(target);
       } else { // if we need to celect one cell
         this.select.select(target);
+        this.$emit('table:changeCell', target.text());
       }
     }
   }
@@ -60,7 +61,13 @@ export class Table extends ExcelComponent {
       const id = this.select.current.parseId();
       const $newSelectCell = this.changeCell(e.code, id);
       this.select.select($newSelectCell);
+      this.$emit('table:changeCell', $newSelectCell.text());
     }
+  }
+
+  onInput(e) {
+    this.$emit('table:text', this.select.current.text());
+    console.log(this.select.current.text());
   }
 
   changeCell(key, {row, col}) {
