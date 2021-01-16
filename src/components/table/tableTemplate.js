@@ -3,9 +3,17 @@ const CHAR_CODE = {
   'Z': 90,
 };
 
-function createCell(_, metaName) {
-  // console.log(toChar(_, metaName));
-  return `<div class="cell" data-name_col="${toChar(_, metaName)}" contenteditable></div>`;
+// function createCell(_, metaName) {
+//   return `<div class="cell" data-name_col="${toChar(_, metaName)}" contenteditable></div>`;
+// }
+
+function createCell(row) {
+  return function(_, colIndex) {
+    return `<div class="cell" 
+            data-name_col="${toChar(_, colIndex)}"
+            data-id="${row}:${colIndex}"
+            contenteditable></div>`;
+  };
 }
 
 function toCollumn(char) {
@@ -46,12 +54,18 @@ export function template(countRows= 10) {
   rows.push(createRow('', cols));
 
   // Массив создания ячеек ряда
-  const row = new Array(countCol)
-      .fill(null)
-      .map(createCell)
-      .join('');
+  // const row = new Array(countCol)
+  //     .fill(null)
+  //     .map((_, i)=>createCell(i)())
+  //     .join('');
 
   for (let i = 0; i < countRows; i++) {
+    const row = new Array(countCol)
+        .fill(null)
+        // .map(createCell)
+        .map(createCell(i))
+        .join('');
+
     rows.push(createRow(i+1, row));
   }
 

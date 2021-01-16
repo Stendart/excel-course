@@ -27,6 +27,16 @@ class Dom {
     return this;
   }
 
+  addClass(className) {
+    this.el.classList.add(className);
+    return this;
+  }
+
+  removeClass(className) {
+    this.el.classList.remove(className);
+    return this;
+  }
+
   append(node) {
     if (node instanceof Dom) {
       node = node.el;
@@ -44,12 +54,37 @@ class Dom {
     return $(this.el.closest(selector));
   }
 
+  parseId() {
+    const parsed = this.el.dataset.id.split(':');
+    return {
+      row: +parsed[0],
+      col: +parsed[1],
+    };
+  }
+
+  find(selector) {
+    return $(document.querySelector(selector));
+  }
+
+  focus() {
+    this.el.focus();
+    return this;
+  }
+
   getCoordinates() {
     return this.el.getBoundingClientRect();
   }
 
   get metaData() {
     return this.el.dataset;
+  }
+
+  text(text) {
+    if (typeof text === 'string') {
+      this.el.textContent = text;
+      return true;
+    }
+    return this.el.textContent;
   }
 
   css(styles = {}) {
