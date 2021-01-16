@@ -2,12 +2,18 @@ import {ExcelComponent} from '@core/ExcelComponent';
 
 export class Formula extends ExcelComponent {
   static className = 'excel__formula';
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
       name: 'Formula',
-      listeners: ['input', 'click'],
+      listeners: ['input', 'keydown'],
+      ...options,
     });
   }
+
+  init() {
+    super.init();
+  }
+
   toHTML() {
     return `
         <div class="info">fx</div>
@@ -16,11 +22,12 @@ export class Formula extends ExcelComponent {
   }
 
   onInput(e) {
-    console.log('Input is ', e.target.textContent.trim());
-    console.log('Input this ', this.$root);
+    this.$emit('formula-input', e.target.textContent.trim());
   }
 
-  onClick() {
-    console.log('click');
+  onKeydown(e) {
+    if (e.code === 'Enter') {
+      this.$emit('formula:enter');
+    }
   }
 }

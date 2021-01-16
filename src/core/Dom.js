@@ -48,12 +48,25 @@ class Dom {
     return this;
   }
 
+  closest(selector) {
+    return $(this.el.closest(selector));
+  }
+
+  parseId() {
+    const parsed = this.el.dataset.id.split(':');
+    return {
+      row: +parsed[0],
+      col: +parsed[1],
+    };
+  }
+
   find(selector) {
     return $(document.querySelector(selector));
   }
 
-  closest(selector) {
-    return $(this.el.closest(selector));
+  focus() {
+    this.el.focus();
+    return this;
   }
 
   getCoordinates() {
@@ -62,6 +75,10 @@ class Dom {
 
   get metaData() {
     return this.el.dataset;
+  }
+
+  text(text) {
+    this.el.textContent = text;
   }
 
   css(styles = {}) {

@@ -3,11 +3,14 @@ export class TableSelection {
 
   constructor() {
     this.group = [];
+    this.current;
   }
   select($el) {
     this.clear();
     this.group.push($el);
+    this.current = $el;
     $el.addClass(TableSelection.className);
+    $el.focus();
   }
 
   clear() {
@@ -17,5 +20,11 @@ export class TableSelection {
     this.group = [];
   }
 
-  selectGroup() {}
+  selectGroup(group = []) {
+    this.clear();
+    this.group = group;
+    this.group.forEach((el)=> {
+      el.addClass(TableSelection.className);
+    });
+  }
 }
