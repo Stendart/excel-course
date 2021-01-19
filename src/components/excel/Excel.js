@@ -5,6 +5,7 @@ export class Excel {
   constructor(selector, options) {
     this.$el = $(selector);
     this.components = options.components || [];
+    this.store = options.store;
     this.emitter = new Emitter();
   }
 
@@ -12,6 +13,7 @@ export class Excel {
     const $root = $.create('div', 'excel');
     const componentOptions = {
       emitter: this.emitter,
+      store: this.store,
     };
     // инициализация инстансов классов и добавление в ДОМ root компонент
     const wrapComponents = this.components.map(Component => {

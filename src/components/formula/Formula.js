@@ -16,6 +16,10 @@ export class Formula extends ExcelComponent {
     const formula = this.$root.find('.js-input');
     this.$on('table:changeCell', data => formula.text(data));
     this.$on('table:text', data => formula.text(data));
+
+    // this.$subscribe(state => {
+    //   console.log('Formula state', state);
+    // });
   }
 
   toHTML() {
