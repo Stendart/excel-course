@@ -3,31 +3,36 @@ const CHAR_CODE = {
   'Z': 90,
 };
 
+const DEFAULT_WIDTH = 120;
+const DEFAULT_HEIGHT = 24;
+
 // function createCell(_, metaName) {
 //   return `<div class="cell" data-name_col="${toChar(_, metaName)}" contenteditable></div>`;
 // }
 
-function createCell(row) {
-  return function(_, colIndex) {
-    return `<div class="cell" 
-            data-name_col="${toChar(_, colIndex)}"
+function createCell(state, row) {
+  return function({width}, colIndex) {
+    return `<div class="cell" style="width: ${width}"
+            data-name_col="${toChar(null, colIndex)}"
             data-id="${row}:${colIndex}"
             contenteditable></div>`;
   };
 }
 
-function toCollumn(char) {
+function toCollumn({char, index, width}) {
   return `
-    <div class="column" data-event="resize">
+    <div class="column" data-event="resize" style="width: ${width}">
         ${char}
         <div class="resize resize-col" data-resize="col"></div>
     </div>
   `;
 }
 
-function createRow(index, content) {
+function createRow(index, content, {rowState}) {
+  console.log(rowState[index]);
+  const height = rowState[index] || DEFAULT_HEIGHT;
   return `
-    <div class="row" data-event="resize">
+    <div class="row" data-event="resize" data-id="${index}" style="height: ${height}px">
         <div class="row-info">
             ${index}
             <div class="resize resize-row" data-resize="row"></div>
@@ -40,18 +45,34 @@ function toChar(_, i) {
   return String.fromCharCode(CHAR_CODE.A + i);
 }
 
-export function template(countRows= 10) {
-  const countCol = CHAR_CODE.Z - CHAR_CODE.A + 1;
+function getWidth(state, index) {
+  const char = toChar(null, index);
+  return (state[char] || DEFAULT_WIDTH) + 'px';
+}
 
+function widthFrom(state) {
+  return function(char, index) {
+    return {char, index, width: getWidth(state.colState, index)};
+  };
+}
+
+export function template(countRows= 10, state = {}) {
+  const countCol = CHAR_CODE.Z - CHAR_CODE.A + 1;
+  console.log('state', state);
   const rows = [];
 
   const cols = new Array(countCol)
       .fill(null)
       .map(toChar)
+      .map(widthFrom(state))
       .map(toCollumn)
+      // .map((value, index)=> {
+      //   const width = getWidth(state.colState, index);
+      //   return toCollumn(value, index, width);
+      // })
       .join('');
 
-  rows.push(createRow('', cols));
+  rows.push(createRow('', cols, state));
 
   // Массив создания ячеек ряда
   // const row = new Array(countCol)
@@ -63,10 +84,11 @@ export function template(countRows= 10) {
     const row = new Array(countCol)
         .fill(null)
         // .map(createCell)
-        .map(createCell(i))
+        .map(widthFrom(state))
+        .map(createCell(state, i))
         .join('');
 
-    rows.push(createRow(i+1, row));
+    rows.push(createRow(i+1, row, state));
   }
 
   // const tempRow = createRow(setRowInfo() + cols);

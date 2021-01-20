@@ -32,6 +32,7 @@ export function resizeHendler(e) {
         resizeCell(resizeble, sizeWidth);
         resolve({
           value: sizeWidth,
+          type: $resize?.metaData.resize,
           id: resizeble.$parent.el.textContent.trim(),
         });
       } else
@@ -42,6 +43,11 @@ export function resizeHendler(e) {
         };
 
         resizeRow(resizeble, sizeHeight);
+        resolve({
+          value: sizeHeight,
+          type: $resize?.metaData.resize,
+          id: resizeble.$parent.metaData.id, // textContent.trim(),
+        });
       }
     };
   });

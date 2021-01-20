@@ -6,3 +6,4 @@ export function tableResize(data) {
     data,
   };
 }
+

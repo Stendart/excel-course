@@ -138,7 +138,7 @@ export class Table extends ExcelComponent {
   }
 
   toHTML() {
-    return template();
+    return template(10, this.store.getState());
   }
 }
 
