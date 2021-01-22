@@ -11,11 +11,14 @@ const DEFAULT_HEIGHT = 24;
 // }
 
 function createCell(state, row) {
+  // console.log('Стата', state.dataState);
   return function({width}, colIndex) {
+    const cellValue = state.dataState[`${row}:${colIndex}`] || '';
+    // console.log(cellValue);
     return `<div class="cell" style="width: ${width}"
             data-name_col="${toChar(null, colIndex)}"
             data-id="${row}:${colIndex}"
-            contenteditable></div>`;
+            contenteditable>${cellValue}</div>`;
   };
 }
 
@@ -29,7 +32,7 @@ function toCollumn({char, index, width}) {
 }
 
 function createRow(index, content, {rowState}) {
-  console.log(rowState[index]);
+  // console.log(rowState[index]);
   const height = rowState[index] || DEFAULT_HEIGHT;
   return `
     <div class="row" data-event="resize" data-id="${index}" style="height: ${height}px">
@@ -58,7 +61,7 @@ function widthFrom(state) {
 
 export function template(countRows= 10, state = {}) {
   const countCol = CHAR_CODE.Z - CHAR_CODE.A + 1;
-  console.log('state', state);
+  // console.log('state', state);
   const rows = [];
 
   const cols = new Array(countCol)

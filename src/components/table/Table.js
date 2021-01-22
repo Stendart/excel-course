@@ -26,6 +26,7 @@ export class Table extends ExcelComponent {
 
     this.$on('formula-input', (data)=> {
       this.select.current.text(data);
+      this.updateTextInStore(data);
     });
 
     this.$on('formula:done', (data)=> {
@@ -33,7 +34,8 @@ export class Table extends ExcelComponent {
     });
 
     // this.$subscribe(state => {
-    //   console.log('Table state', state);
+    //   this.select.current.text(state.currentText);
+    //   console.log('Table state', state.currentText);
     // });
   }
 
@@ -70,8 +72,7 @@ export class Table extends ExcelComponent {
   selectCell($cell) {
     this.select.select($cell);
     this.$emit('table:changeCell', $cell.text());
-
-    this.$dispatch({type: 'TeST'});
+    this.updateTextInStore($cell.text());
   }
 
   onKeydown(e) {
@@ -86,7 +87,8 @@ export class Table extends ExcelComponent {
   }
 
   onInput(e) {
-    this.$emit('table:text', this.select.current.text());
+    // this.$emit('table:text', this.select.current.text());
+    this.updateTextInStore(this.select.current.text());
     console.log(this.select.current.text());
   }
 
@@ -137,6 +139,12 @@ export class Table extends ExcelComponent {
     this.select.selectGroup(cells);
   }
 
+  updateTextInStore(value) {
+    this.$dispatch(action.cellsValue({
+      id: this.select.current.id,
+      value,
+    }));
+  }
   toHTML() {
     return template(10, this.store.getState());
   }

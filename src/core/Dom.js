@@ -62,6 +62,10 @@ class Dom {
     };
   }
 
+  get id() {
+    return this.el.dataset.id;
+  }
+
   find(selector) {
     return $(document.querySelector(selector));
   }
