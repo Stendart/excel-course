@@ -1,3 +1,6 @@
+import {defaultStyles} from '@/constants';
+import {camelToSnake} from '@core/utils';
+
 const CHAR_CODE = {
   'A': 65,
   'Z': 90,
@@ -15,7 +18,9 @@ function createCell(state, row) {
   return function({width}, colIndex) {
     const cellValue = state.dataState[`${row}:${colIndex}`] || '';
     // console.log(cellValue);
-    return `<div class="cell" style="width: ${width}"
+    const styles = Object.keys(defaultStyles).map(key => `${camelToSnake(key)}: ${defaultStyles[key]}`).join(';');
+    console.log(styles);
+    return `<div class="cell" style="${styles}; width: ${width}"
             data-name_col="${toChar(null, colIndex)}"
             data-id="${row}:${colIndex}"
             contenteditable>${cellValue}</div>`;

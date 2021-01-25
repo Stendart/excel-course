@@ -27,4 +27,10 @@ export class TableSelection {
       el.addClass(TableSelection.className);
     });
   }
+
+  applyStyle(style) {
+    this.group.forEach((e=> {
+      e.css(style);
+    }));
+  }
 }

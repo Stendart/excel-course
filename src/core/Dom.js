@@ -37,6 +37,13 @@ class Dom {
     return this;
   }
 
+  getStyles(styles = []) {
+    return styles.reduce((res, style)=>{
+      res[style] = this.el.style[style];
+      return res;
+    }, {});
+  }
+
   append(node) {
     if (node instanceof Dom) {
       node = node.el;

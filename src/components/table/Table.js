@@ -4,6 +4,7 @@ import {resizeHendler} from '@/components/table/tableResize';
 import {TableSelection} from '@/components/table/TableSelection';
 import {$} from '@core/Dom';
 import * as action from '@/store/action';
+import {defaultStyles} from '@/constants';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table';
@@ -31,6 +32,10 @@ export class Table extends ExcelComponent {
 
     this.$on('formula:done', (data)=> {
       this.select.current.focus();
+    });
+    this.$on('toolbar:applyStyle', value => {
+      this.select.applyStyle(value);
+      console.log(value);
     });
 
     // this.$subscribe(state => {
@@ -73,6 +78,9 @@ export class Table extends ExcelComponent {
     this.select.select($cell);
     this.$emit('table:changeCell', $cell.text());
     this.updateTextInStore($cell.text());
+    const style = $cell.getStyles(Object.keys(defaultStyles));
+    console.log(style);
+    this.store.dispatch(action.changeStyles(style));
   }
 
   onKeydown(e) {
