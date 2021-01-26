@@ -1,6 +1,3 @@
-// import {defaultStyles} from '@/constants';
-// import {toInlineStyle} from '@core/utils';
-
 import {toInlineStyle} from '@core/utils';
 import {defaultStyles} from '@/constants';
 import {parse} from '@core/parse';
@@ -13,16 +10,10 @@ const CHAR_CODE = {
 const DEFAULT_WIDTH = 120;
 const DEFAULT_HEIGHT = 24;
 
-// function createCell(_, metaName) {
-//   return `<div class="cell" data-name_col="${toChar(_, metaName)}" contenteditable></div>`;
-// }
-
 function createCell(state, row) {
-  // console.log('Стата', state.dataState);
   return function({width}, colIndex) {
     const cellValue = state.dataState[`${row}:${colIndex}`] || '';
     const id = `${row}:${colIndex}`;
-    // console.log(cellValue);
     const styles = toInlineStyle({
       ...defaultStyles,
       ...state.stylesState[id],
@@ -45,7 +36,6 @@ function toCollumn({char, index, width}) {
 }
 
 function createRow(index, content, {rowState}) {
-  // console.log(rowState[index]);
   const height = rowState[index] || DEFAULT_HEIGHT;
   return `
     <div class="row" data-event="resize" data-id="${index}" style="height: ${height}px">
@@ -74,7 +64,6 @@ function widthFrom(state) {
 
 export function template(countRows= 10, state = {}) {
   const countCol = CHAR_CODE.Z - CHAR_CODE.A + 1;
-  // console.log('state', state);
   const rows = [];
 
   const cols = new Array(countCol)
@@ -82,19 +71,9 @@ export function template(countRows= 10, state = {}) {
       .map(toChar)
       .map(widthFrom(state))
       .map(toCollumn)
-      // .map((value, index)=> {
-      //   const width = getWidth(state.colState, index);
-      //   return toCollumn(value, index, width);
-      // })
       .join('');
 
   rows.push(createRow('', cols, state));
-
-  // Массив создания ячеек ряда
-  // const row = new Array(countCol)
-  //     .fill(null)
-  //     .map((_, i)=>createCell(i)())
-  //     .join('');
 
   for (let i = 0; i < countRows; i++) {
     const row = new Array(countCol)
@@ -107,6 +86,5 @@ export function template(countRows= 10, state = {}) {
     rows.push(createRow(i+1, row, state));
   }
 
-  // const tempRow = createRow(setRowInfo() + cols);
   return rows.join('');
 }

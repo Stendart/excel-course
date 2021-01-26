@@ -13,7 +13,6 @@ import {debounce} from '@core/utils';
 const store = createStore(rootReducer, initialState);
 
 const stateListener = debounce(state => {
-  console.log('App state', state);
   localStore('excel-state', state);
 }, 300);
 

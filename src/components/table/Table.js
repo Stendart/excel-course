@@ -43,11 +43,6 @@ export class Table extends ExcelComponent {
         ids: this.select.selectedIds,
       }));
     });
-
-    // this.$subscribe(state => {
-    //   this.select.current.text(state.currentText);
-    //   console.log('Table state', state.currentText);
-    // });
   }
 
   async resizeTable(e) {
