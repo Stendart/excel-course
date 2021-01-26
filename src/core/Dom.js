@@ -37,6 +37,13 @@ class Dom {
     return this;
   }
 
+  getStyles(styles = []) {
+    return styles.reduce((res, style)=>{
+      res[style] = this.el.style[style];
+      return res;
+    }, {});
+  }
+
   append(node) {
     if (node instanceof Dom) {
       node = node.el;
@@ -62,6 +69,10 @@ class Dom {
     };
   }
 
+  get id() {
+    return this.el.dataset.id;
+  }
+
   find(selector) {
     return $(document.querySelector(selector));
   }
@@ -79,10 +90,23 @@ class Dom {
     return this.el.dataset;
   }
 
+
+  attribute(name, value) {
+    if (value) {
+      this.el.setAttribute(name, value);
+      return this;
+    }
+    this.el.getAttribute(name);
+    return this;
+  }
+
   text(text) {
-    if (typeof text === 'string') {
+    if (typeof text !== 'undefined') {
       this.el.textContent = text;
       return true;
+    }
+    if (this.el.nodeName === 'INPUT') {
+      return this.el.value;
     }
     return this.el.textContent;
   }

@@ -1,20 +1,33 @@
 import {ExcelComponent} from '@core/ExcelComponent';
+import {$} from '@core/Dom';
+import {tableName} from '@/store/action';
 
 export class Header extends ExcelComponent {
   static className = 'excel__header';
   constructor($root, options) {
     super($root, {
       name: 'Header',
-      listeners: ['click'],
+      listeners: ['input'],
+      subscribe: ['tableName'],
       ...options,
     });
   }
-  onClick() {
-    console.log('click');
+
+  tableName() {
+    return this.store.getState().tableName;
   }
+
+  onInput(e) {
+    const title = $(e.target);
+    this.store.dispatch(tableName({
+      value: title.text(),
+    }));
+    // console.log(title.text());
+  }
+
   toHTML() {
     return `
-      <input class="input" value="Новая таблица"/>
+      <input class="input" data-value="table-name" value="${this.tableName()}"/>
 
       <div>
           <div class="button">

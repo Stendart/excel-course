@@ -1,44 +1,56 @@
 import {$} from '@core/Dom';
 
 export function resizeHendler(e) {
-  const $resize = $(e.target);
-  const $parent = $resize.closest('[data-event="resize"]');
-  let sizeWidth;
-  let sizeHeight;
+  return new Promise(resolve => {
+    const $resize = $(e.target);
+    const $parent = $resize.closest('[data-event="resize"]');
+    let sizeWidth;
+    let sizeHeight;
 
-  // Change size of row or column
-  if ($resize.metaData.resize === 'col') {
-    $resize.css({height: '100vh', opacity: 1});
-    document.onmousemove = event => {
-      sizeWidth = resizeWidth(event, $parent, $resize);
-    };
-  }
-
-  if ($resize.metaData.resize === 'row') {
-    $resize.css({width: '100vw', opacity: 1});
-    document.onmousemove = event => {
-      sizeHeight = resizeHeight(event, $parent, $resize);
-    };
-  }
-
-  document.onmouseup = event => {
-    document.onmousemove = null;
-    if ($resize?.metaData.resize === 'col') {
-      const resizeble = {
-        $parent,
-        $resize,
+    // Change size of row or column
+    if ($resize.metaData.resize === 'col') {
+      $resize.css({height: '100vh', opacity: 1});
+      document.onmousemove = event => {
+        sizeWidth = resizeWidth(event, $parent, $resize);
       };
-      resizeCell(resizeble, sizeWidth);
-    } else
-    if ($resize?.metaData.resize === 'row') {
-      const resizeble = {
-        $parent,
-        $resize,
-      };
-
-      resizeRow(resizeble, sizeHeight);
     }
-  };
+
+    if ($resize.metaData.resize === 'row') {
+      $resize.css({width: '100vw', opacity: 1});
+      document.onmousemove = event => {
+        sizeHeight = resizeHeight(event, $parent, $resize);
+      };
+    }
+
+    document.onmouseup = event => {
+      document.onmousemove = null;
+      if ($resize?.metaData.resize === 'col') {
+        const resizeble = {
+          $parent,
+          $resize,
+        };
+        resizeCell(resizeble, sizeWidth);
+        resolve({
+          value: sizeWidth,
+          type: $resize?.metaData.resize,
+          id: resizeble.$parent.el.textContent.trim(),
+        });
+      } else
+      if ($resize?.metaData.resize === 'row') {
+        const resizeble = {
+          $parent,
+          $resize,
+        };
+
+        resizeRow(resizeble, sizeHeight);
+        resolve({
+          value: sizeHeight,
+          type: $resize?.metaData.resize,
+          id: resizeble.$parent.metaData.id, // textContent.trim(),
+        });
+      }
+    };
+  });
 }
 
 function resizeWidth(e, $parent, $resizer) {
