@@ -1,5 +1,8 @@
+// import {defaultStyles} from '@/constants';
+// import {toInlineStyle} from '@core/utils';
+
+import {toInlineStyle} from '@core/utils';
 import {defaultStyles} from '@/constants';
-import {camelToSnake} from '@core/utils';
 
 const CHAR_CODE = {
   'A': 65,
@@ -17,12 +20,16 @@ function createCell(state, row) {
   // console.log('Стата', state.dataState);
   return function({width}, colIndex) {
     const cellValue = state.dataState[`${row}:${colIndex}`] || '';
+    const id = `${row}:${colIndex}`;
     // console.log(cellValue);
-    const styles = Object.keys(defaultStyles).map(key => `${camelToSnake(key)}: ${defaultStyles[key]}`).join(';');
+    const styles = toInlineStyle({
+      ...defaultStyles,
+      ...state.stylesState[id],
+    }); // toInlineStyle(defaultStyles);
     console.log(styles);
     return `<div class="cell" style="${styles}; width: ${width}"
             data-name_col="${toChar(null, colIndex)}"
-            data-id="${row}:${colIndex}"
+            data-id="${id}"
             contenteditable>${cellValue}</div>`;
   };
 }

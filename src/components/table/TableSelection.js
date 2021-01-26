@@ -28,6 +28,10 @@ export class TableSelection {
     });
   }
 
+  get selectedIds() {
+    return this.group.map(el => el.id);
+  }
+
   applyStyle(style) {
     this.group.forEach((e=> {
       e.css(style);

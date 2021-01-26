@@ -8,12 +8,16 @@ import {createStore} from '@core/createStore';
 import {rootReducer} from '@/store/rootReducer';
 import {localStore} from '@/store/utils';
 import {initialState} from '@/store/initialState';
+import {debounce} from '@core/utils';
 
 const store = createStore(rootReducer, initialState);
 
-store.subscribe(state => {
+const stateListener = debounce(state => {
+  console.log('App state', state);
   localStore('excel-state', state);
-});
+}, 300);
+
+store.subscribe(stateListener);
 
 const excel = new Excel('#app', {
   components: [Header, Toolbar, Formula, Table],

@@ -95,6 +95,9 @@ class Dom {
       this.el.textContent = text;
       return true;
     }
+    if (this.el.nodeName === 'INPUT') {
+      return this.el.value;
+    }
     return this.el.textContent;
   }
 

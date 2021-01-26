@@ -1,11 +1,13 @@
 import {localStore} from '@/store/utils';
-import {defaultStyles} from '@/constants';
+import {defaultStyles, defaultTitle} from '@/constants';
 
 const defaultState = {
   rowState: {},
   colState: {},
   currentText: '',
   dataState: {},
+  stylesState: {},
+  tableName: defaultTitle,
   currentStyles: defaultStyles,
 };
 
