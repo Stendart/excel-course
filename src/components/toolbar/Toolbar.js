@@ -24,7 +24,6 @@ export class Toolbar extends ExcelStateComponent {
   }
 
   storeChanged(changes) {
-    console.log(changes);
     this.setState(changes.currentStyles);
   }
 
@@ -32,10 +31,6 @@ export class Toolbar extends ExcelStateComponent {
     const $target = $(e.target);
     if ($target.metaData.type === 'bytton') {
       const value = JSON.parse($target.metaData.value);
-      // const key = Object.keys(value)[0];
-      // this.setState({[key]: value[key]});
-      // console.log(this.state);
-
       this.$emit('toolbar:applyStyle', value);
     }
   }

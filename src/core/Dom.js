@@ -90,8 +90,18 @@ class Dom {
     return this.el.dataset;
   }
 
+
+  attribute(name, value) {
+    if (value) {
+      this.el.setAttribute(name, value);
+      return this;
+    }
+    this.el.getAttribute(name);
+    return this;
+  }
+
   text(text) {
-    if (typeof text === 'string') {
+    if (typeof text !== 'undefined') {
       this.el.textContent = text;
       return true;
     }

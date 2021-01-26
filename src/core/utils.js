@@ -19,7 +19,7 @@ export function debounce(fn, wait) {
     const later = () => {
       clearTimeout(timeout);
       // eslint-disable-next-line no-invalid-this
-      fn.apply(this, ...args);
+      fn(...args);
     };
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);

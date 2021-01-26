@@ -5,6 +5,7 @@ import {TableSelection} from '@/components/table/TableSelection';
 import {$} from '@core/Dom';
 import * as action from '@/store/action';
 import {defaultStyles} from '@/constants';
+import {parse} from '@core/parse';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table';
@@ -26,7 +27,9 @@ export class Table extends ExcelComponent {
     this.select.select(el);
 
     this.$on('formula-input', (data)=> {
-      this.select.current.text(data);
+      this.select.current.attribute('data-value', data)
+          .text(parse(data));
+      this.select.current.text(parse(data));
       this.updateTextInStore(data);
     });
 
@@ -79,10 +82,10 @@ export class Table extends ExcelComponent {
 
   selectCell($cell) {
     this.select.select($cell);
-    this.$emit('table:changeCell', $cell.text());
-    this.updateTextInStore($cell.text());
+    const metaValue = $cell.metaData.value;
+    this.$emit('table:changeCell', metaValue);
+    this.updateTextInStore(metaValue);
     const style = $cell.getStyles(Object.keys(defaultStyles));
-    console.log(style);
     this.store.dispatch(action.changeStyles(style));
   }
 

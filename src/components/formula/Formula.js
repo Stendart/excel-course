@@ -16,17 +16,16 @@ export class Formula extends ExcelComponent {
     super.init();
 
     this.formula = this.$root.find('.js-input');
-    this.$on('table:changeCell', data => this.formula.text(data));
-    // this.$on('table:text', data => formula.text(data));
 
-    // this.$subscribe(state => {
-    //   formula.text(state.currentText);
-    //   console.log('Formula state', state.currentText);
-    // });
+    this.$on('table:changeCell', data => {
+      this.formula.text(data);
+      // this.formula.text(data.metaData.value);
+    });
+    // this.$on('table:text', data => formula.text(data));
   }
 
-  storeChanged({currentText}) {
-    this.formula.text(currentText);
+  storeChanged(currentText) {
+    this.formula.text(currentText.currentText);
   }
 
   toHTML() {

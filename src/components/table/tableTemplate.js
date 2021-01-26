@@ -3,6 +3,7 @@
 
 import {toInlineStyle} from '@core/utils';
 import {defaultStyles} from '@/constants';
+import {parse} from '@core/parse';
 
 const CHAR_CODE = {
   'A': 65,
@@ -26,11 +27,11 @@ function createCell(state, row) {
       ...defaultStyles,
       ...state.stylesState[id],
     }); // toInlineStyle(defaultStyles);
-    console.log(styles);
     return `<div class="cell" style="${styles}; width: ${width}"
             data-name_col="${toChar(null, colIndex)}"
             data-id="${id}"
-            contenteditable>${cellValue}</div>`;
+            data-value="${cellValue || ''}"
+            contenteditable>${parse(cellValue) || ''}</div>`;
   };
 }
 
