@@ -3,8 +3,8 @@ import {Emitter} from '@core/Emitter';
 import {StoreSubscriber} from '@core/storeSubscriber';
 
 export class Excel {
-  constructor(selector, options) {
-    this.$el = $(selector);
+  constructor(options) {
+    // this.$el = $(selector);
     this.components = options.components || [];
     this.store = options.store;
     this.emitter = new Emitter();
@@ -18,7 +18,7 @@ export class Excel {
       store: this.store,
     };
     // инициализация инстансов классов и добавление в ДОМ root компонент
-    const wrapComponents = this.components.map(Component => {
+    this.wrapComponents = this.components.map(Component => {
       const $el = $.create('div', Component.className);
       const component = new Component($el, componentOptions);
       $el.html(component.toHTML());
@@ -30,15 +30,16 @@ export class Excel {
       return component;
     });
     return {
-      wrapComponents,
+      // wrapComponents,
       $root,
     };
   }
-  render() {
-    const {wrapComponents, $root} = this.getRoot();
-    this.subscriber.subscribeComponents(wrapComponents);
-    this.$el.append($root);
-    wrapComponents.forEach(component => component.init());
+  init() {
+    // const {wrapComponents} = this.getRoot();
+    this.subscriber.subscribeComponents(this.wrapComponents);
+    // this.$el.append($root);
+    // console.log('wrapComponents', wrapComponents);
+    this.wrapComponents.forEach(component => component.init());
   }
 
   destroy() {

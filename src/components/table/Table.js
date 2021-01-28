@@ -57,7 +57,7 @@ export class Table extends ExcelComponent {
 
   onMousedown(e) {
     const dataAttribyte = e.target.dataset;
-
+    console.log('mousedown');
     // if we click on resize element
     if (dataAttribyte.resize) {
       this.resizeTable(e);

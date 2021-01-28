@@ -53,7 +53,6 @@ class Dom {
     } else {
       this.el.appendChild(node);
     }
-
     return this;
   }
 
