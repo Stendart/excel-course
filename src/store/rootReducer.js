@@ -1,4 +1,4 @@
-import {APPLY_STYLE, CELLS_VALUE, CHANGE_STYLES, TABLE_NAME, TABLE_RESIZE} from '@/store/types';
+import {APPLY_STYLE, CELLS_VALUE, CHANGE_STYLES, TABLE_NAME, TABLE_RESIZE, UPDATE_DATE} from '@/store/types';
 
 export function rootReducer(state, action) {
   let field;
@@ -37,6 +37,11 @@ export function rootReducer(state, action) {
     case TABLE_NAME:
       field = 'tableName';
       return {...state, [field]: action.data.value};
+    case UPDATE_DATE:
+      // eslint-disable-next-line no-case-declarations
+      const d = {...state, openedDate: new Date().toJSON()};
+      console.log('state ', d);
+      return d;
     default: return state;
   }
 }

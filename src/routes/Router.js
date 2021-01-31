@@ -1,5 +1,5 @@
 import {$} from '@core/Dom';
-// import {ActiveRoute} from '@/routes/ActiveRoute';
+import {ActiveRoute} from '@/routes/ActiveRoute';
 
 export class Router {
   constructor(selector, routes) {
@@ -8,6 +8,7 @@ export class Router {
     }
     this.$placeholder = $(selector);
     this.routes = routes;
+    this.page = null;
 
     this.changePageHandler = this.changePageHandler.bind(this);
     this.init();
@@ -19,14 +20,17 @@ export class Router {
   }
 
   changePageHandler(e) {
-    // console.log(ActiveRoute.path);
-    // console.log(ActiveRoute.pageId);
-    const Page = this.routes.excel;
-    const page = new Page();
-    console.log(page.getRoot());
-    this.$placeholder.append(page.getRoot());
+    if (this.page) {
+      console.log(this.page);
+      this.page.destroy();
+    }
 
-    page.afterRender();
+    this.$placeholder.clear();
+    const Page = ActiveRoute.path.includes('excel') ? this.routes.excel : this.routes.dashboard;
+    this.page = new Page(ActiveRoute.param);
+    this.$placeholder.append(this.page.getRoot());
+
+    this.page.afterRender();
   }
 
   destroy() {

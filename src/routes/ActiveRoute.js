@@ -3,7 +3,11 @@ export class ActiveRoute {
     return window.location.hash.slice(1);
   }
 
-  static get pageId() {
-    return this.path.split('/');
+  static get param() {
+    return this.path.split('/')[1];
+  }
+
+  static navigate(hash) {
+    window.location.hash = hash;
   }
 }

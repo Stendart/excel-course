@@ -8,13 +8,21 @@ import {Page} from '@core/Page';
 import {debounce} from '@core/utils';
 import {createStore} from '@core/createStore';
 import {rootReducer} from '@/store/rootReducer';
-import {initialState} from '@/store/initialState';
+import {normalizeInitialState} from '@/store/initialState';
+
+function storeName(param) {
+  return 'excel:' + param;
+}
 
 export class ExcelPage extends Page {
   getRoot() {
-    const store = createStore(rootReducer, initialState);
+    const parems = this.params || Date.now().toString();
+    console.log(parems);
+    const state = localStore(storeName(parems));
+    const store = createStore(rootReducer, normalizeInitialState(state));
+
     const stateListener = debounce(state => {
-      localStore('excel-state', state);
+      localStore(storeName(this.params), state);
     }, 300);
 
     store.subscribe(stateListener);
@@ -28,12 +36,10 @@ export class ExcelPage extends Page {
   }
 
   afterRender() {
-    console.log('init');
     this.excel.init();
   }
 
   destroy() {
-    console.log('destroy');
     this.excel.destroy();
   }
 }

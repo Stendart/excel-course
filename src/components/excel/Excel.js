@@ -1,6 +1,7 @@
 import {$} from '@core/Dom';
 import {Emitter} from '@core/Emitter';
 import {StoreSubscriber} from '@core/storeSubscriber';
+import {updateDate} from '@/store/action';
 
 export class Excel {
   constructor(options) {
@@ -36,6 +37,7 @@ export class Excel {
   }
   init() {
     // const {wrapComponents} = this.getRoot();
+    this.store.dispatch(updateDate());
     this.subscriber.subscribeComponents(this.wrapComponents);
     // this.$el.append($root);
     // console.log('wrapComponents', wrapComponents);
@@ -44,6 +46,8 @@ export class Excel {
 
   destroy() {
     this.subscriber.unsubscribeFromStore();
-    this.components.forEach(component => component.destroy());
+    this.wrapComponents.forEach(component => {
+      component.destroyed();
+    });
   }
 }
