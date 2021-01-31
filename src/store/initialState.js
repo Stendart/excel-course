@@ -1,4 +1,3 @@
-// import {localStore} from '@/store/utils';
 import {defaultStyles, defaultTitle} from '@/constants';
 
 const defaultState = {
@@ -11,10 +10,6 @@ const defaultState = {
   currentStyles: defaultStyles,
   openedDate: new Date().toJSON(),
 };
-
-// const store = localStore('excel-state');
-
-// export const initialState = store ? store : defaultState;
 
 const normalize = state => ({
   ...state,

@@ -14,11 +14,6 @@ function toHTML(key) {
 `;
 }
 
-
-// function getTableName() {
-//   const keys = getAllKeys();
-// }
-
 function getAllKeys() {
   const keys = [];
   for (let i = 0; i < localStorage.length; i++) {
