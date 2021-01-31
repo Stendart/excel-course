@@ -1,4 +1,4 @@
-import {APPLY_STYLE, CELLS_VALUE, CHANGE_STYLES, TABLE_NAME, TABLE_RESIZE} from '@/store/types';
+import {APPLY_STYLE, CELLS_VALUE, CHANGE_STYLES, TABLE_NAME, TABLE_RESIZE, UPDATE_DATE} from '@/store/types';
 
 export function tableResize(data) {
   return {
@@ -32,5 +32,11 @@ export function tableName(data) {
   return {
     type: TABLE_NAME,
     data,
+  };
+}
+
+export function updateDate() {
+  return {
+    type: UPDATE_DATE,
   };
 }

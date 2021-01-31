@@ -1,10 +1,10 @@
 import {$} from '@core/Dom';
 import {Emitter} from '@core/Emitter';
 import {StoreSubscriber} from '@core/storeSubscriber';
+import {updateDate} from '@/store/action';
 
 export class Excel {
-  constructor(selector, options) {
-    this.$el = $(selector);
+  constructor(options) {
     this.components = options.components || [];
     this.store = options.store;
     this.emitter = new Emitter();
@@ -18,31 +18,27 @@ export class Excel {
       store: this.store,
     };
     // инициализация инстансов классов и добавление в ДОМ root компонент
-    const wrapComponents = this.components.map(Component => {
+    this.wrapComponents = this.components.map(Component => {
       const $el = $.create('div', Component.className);
       const component = new Component($el, componentOptions);
       $el.html(component.toHTML());
       $root.append($el);
-      // // Debug
-      // if (component.name) {
-      //   window['c' + component.name] = component;
-      // }
       return component;
     });
     return {
-      wrapComponents,
       $root,
     };
   }
-  render() {
-    const {wrapComponents, $root} = this.getRoot();
-    this.subscriber.subscribeComponents(wrapComponents);
-    this.$el.append($root);
-    wrapComponents.forEach(component => component.init());
+  init() {
+    this.store.dispatch(updateDate());
+    this.subscriber.subscribeComponents(this.wrapComponents);
+    this.wrapComponents.forEach(component => component.init());
   }
 
   destroy() {
     this.subscriber.unsubscribeFromStore();
-    this.components.forEach(component => component.destroy());
+    this.wrapComponents.forEach(component => {
+      component.destroyed();
+    });
   }
 }

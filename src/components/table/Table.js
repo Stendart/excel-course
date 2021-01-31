@@ -57,7 +57,6 @@ export class Table extends ExcelComponent {
 
   onMousedown(e) {
     const dataAttribyte = e.target.dataset;
-
     // if we click on resize element
     if (dataAttribyte.resize) {
       this.resizeTable(e);
@@ -98,7 +97,6 @@ export class Table extends ExcelComponent {
   onInput(e) {
     // this.$emit('table:text', this.select.current.text());
     this.updateTextInStore(this.select.current.text());
-    console.log(this.select.current.text());
   }
 
   changeCell(key, {row, col}) {
